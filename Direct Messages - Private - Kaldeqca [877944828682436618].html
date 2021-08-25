@@ -1,0 +1,1136 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Direct Messages - Kaldeqca</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-300.woff);
+            font-weight: 300;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-400.woff);
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-500.woff);
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-600.woff);
+            font-weight: 600;
+        }
+
+        @font-face {
+            font-family: Whitney;
+            src: url(https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/whitney-700.woff);
+            font-weight: 700;
+        }
+
+        body {
+            background-color: #36393e;
+            color: #dcddde;
+            font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        a {
+            color: #00aff4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .markdown {
+            max-width: 100%;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+        }
+
+        .preserve-whitespace {
+            white-space: pre-wrap;
+        }
+
+        .spoiler-text {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .spoiler-text--hidden {
+            cursor: pointer;
+            background-color: #202225;
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .spoiler-text--hidden:hover {
+            background-color: rgba(32, 34, 37, 0.8);
+        }
+
+        .spoiler-text--hidden::selection {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .quote {
+            display: flex;
+            margin: 0.05em 0;
+        }
+
+        .quote::before {
+            content: "";
+            margin-right: 0.5em;
+            border: 2px solid #4f545c;
+            border-radius: 3px;
+        }
+
+        .pre {
+            background-color: #2f3136;
+            font-family: "Consolas", "Courier New", Courier, monospace;
+        }
+
+        .pre--multiline {
+            margin-top: 0.25em;
+            padding: 0.5em;
+            border: 2px solid #282b30;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .pre--multiline.hljs {
+            background-color: #2f3136;
+            color: #b9bbbe;
+        }
+
+        .pre--inline {
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+
+        .mention {
+            border-radius: 3px;
+            padding: 0 2px;
+            color: #7289da;
+            background-color: rgba(114, 137, 218, .1);
+            font-weight: 500;
+        }
+
+        .timestamp {
+            border-radius: 3px;
+            padding: 0 2px;
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .emoji {
+            width: 1.325em;
+            height: 1.325em;
+            margin: 0 0.06em;
+            vertical-align: -0.4em;
+        }
+
+        .emoji--small {
+            width: 1em;
+            height: 1em;
+        }
+
+        .emoji--large {
+            width: 2.8em;
+            height: 2.8em;
+        }
+
+        .preamble {
+            display: grid;
+            margin: 0 0.3em 0.6em 0.3em;
+            max-width: 100%;
+            grid-template-columns: auto 1fr;
+        }
+
+        .preamble__guild-icon-container {
+            grid-column: 1;
+        }
+
+        .preamble__guild-icon {
+            max-width: 88px;
+            max-height: 88px;
+        }
+
+        .preamble__entries-container {
+            grid-column: 2;
+            margin-left: 0.6em;
+        }
+
+        .preamble__entry {
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+
+        .preamble__entry--small {
+            font-size: 1em;
+        }
+
+        .chatlog {
+            max-width: 100%;
+        }
+
+        .chatlog__message-group {
+            display: grid;
+            margin: 0 0.6em;
+            padding: 0.9em 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            grid-template-columns: auto 1fr;
+        }
+
+        .chatlog__reference-symbol {
+            grid-column: 1;
+            margin: 8px 4px 4px 18px;
+            border-left: 2px solid #4f545c;
+            border-top: 2px solid #4f545c;
+            border-radius: 8px 0 0 0;
+        }
+
+        .chatlog__reference {
+            display: flex;
+            grid-column: 2;
+            margin-bottom: 0.25em;
+            font-size: 0.875em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            align-items: center;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-avatar {
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.25em;
+        }
+
+        .chatlog__reference-name {
+            margin-right: 0.3em;
+            font-weight: 600;
+        }
+
+        .chatlog__reference-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__reference-content a:hover {
+            text-decoration: none;
+        }
+
+        .chatlog__reference-link {
+            cursor: pointer;
+            color: #b5b6b8;
+        }
+
+        .chatlog__reference-link * {
+            display: inline;
+            pointer-events: none;
+        }
+
+        .chatlog__reference-link:hover {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-link:hover *:not(.spoiler-text) {
+            color: #ffffff;
+        }
+
+        .chatlog__reference-edited-timestamp {
+            margin-left: 0.25em;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__author-avatar-container {
+            grid-column: 1;
+            width: 40px;
+            height: 40px;
+            margin-right: 16px;
+        }
+
+        .chatlog__author-avatar {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatlog__messages {
+            grid-column: 2;
+            min-width: 50%;
+        }
+
+        .chatlog__author-name {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chatlog__timestamp {
+            margin-left: 0.3em;
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__message {
+            padding: 0.1em 0.3em;
+            margin: 0 -0.3em;
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+
+        .chatlog__message--highlighted {
+            background-color: rgba(114, 137, 218, 0.2);
+        }
+
+        .chatlog__message--pinned {
+            background-color: rgba(249, 168, 37, 0.05);
+        }
+
+        .chatlog__content {
+            font-size: 0.95em;
+            word-wrap: break-word;
+        }
+
+        .chatlog__edited-timestamp {
+            margin-left: 0.15em;
+            font-size: 0.8em;
+        }
+
+        .chatlog__attachment {
+            display: inline-block;
+            position: relative;
+            margin-top: 0.3em;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden {
+            cursor: pointer;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatlog__attachment--hidden * {
+            pointer-events: none;
+        }
+
+        .chatlog__attachment-spoiler-caption {
+            display: none;
+            z-index: 999;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.4em 0.8em;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            color: #dcddde;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-spoiler-caption {
+            display: block;
+        }
+
+        .chatlog__attachment--hidden:hover .chatlog__attachment-spoiler-caption {
+            color: #fff;
+        }
+
+        .chatlog__attachment-media {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-media {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic {
+            width: 100%;
+            max-width: 520px;
+            height: 40px;
+            padding: 10px;
+            background-color: #2f3136;
+            border: 1px solid #292b2f;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .chatlog__attachment--hidden .chatlog__attachment-generic {
+            filter: blur(44px);
+        }
+
+        .chatlog__attachment-generic-icon {
+            float: left;
+            width: 30px;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .chatlog__attachment-generic-size {
+            color: #72767d;
+            font-size: 12px;
+        }
+
+        .chatlog__attachment-generic-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chatlog__edited-timestamp {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatlog__embed {
+            display: flex;
+            margin-top: 0.3em;
+            max-width: 520px;
+        }
+
+        .chatlog__embed-color-pill {
+            flex-shrink: 0;
+            width: 0.25em;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatlog__embed-color-pill--default {
+            background-color: #202225;
+        }
+
+        .chatlog__embed-content-container {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5em 0.6em;
+            background-color: rgba(46, 48, 54, 0.3);
+            border: 1px solid rgba(46, 48, 54, 0.6);
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .chatlog__embed-content {
+            display: flex;
+            width: 100%;
+        }
+
+        .chatlog__embed-text {
+            flex: 1;
+        }
+
+        .chatlog__embed-author {
+            display: flex;
+            margin-bottom: 0.3em;
+            align-items: center;
+        }
+
+        .chatlog__embed-author-icon {
+            margin-right: 0.5em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .chatlog__embed-author-name {
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff
+        }
+
+        .chatlog__embed-author-name-link {
+            color: #ffffff;
+        }
+
+        .chatlog__embed-title {
+            margin-bottom: 0.2em;
+            font-size: 0.875em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-description {
+            font-weight: 500;
+            font-size: 0.85em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5em;
+        }
+
+        .chatlog__embed-field {
+            flex: 0;
+            min-width: 100%;
+            max-width: 506px;
+            padding-top: 0.6em;
+            font-size: 0.875em;
+        }
+
+        .chatlog__embed-field--inline {
+            flex: 1;
+            flex-basis: auto;
+            min-width: 150px;
+        }
+
+        .chatlog__embed-field-name {
+            margin-bottom: 0.2em;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .chatlog__embed-field-value {
+            font-weight: 500;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-thumbnail {
+            flex: 0;
+            margin-left: 1.2em;
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-image-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-image {
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-footer {
+            margin-top: 0.6em;
+            color: #dcddde;
+        }
+
+        .chatlog__embed-footer-icon {
+            margin-right: 0.2em;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .chatlog__embed-footer-text {
+            vertical-align: middle;
+            font-size: 0.75em;
+            font-weight: 500;
+        }
+
+        .chatlog__embed-plainimage {
+            vertical-align: top;
+            max-width: 45vw;
+            max-height: 500px;
+            border-radius: 3px;
+        }
+
+        .chatlog__embed-spotify {
+            border: 0;
+        }
+
+        .chatlog__embed-youtube-container {
+            margin-top: 0.6em;
+        }
+
+        .chatlog__embed-youtube {
+            border: 0;
+            border-radius: 3px;
+        }
+
+        .chatlog__reactions {
+            display: flex;
+        }
+
+        .chatlog__reaction {
+            display: flex;
+            align-items: center;
+            margin: 0.35em 0.1em 0.1em 0.1em;
+            padding: 0.2em 0.35em;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .chatlog__reaction-count {
+            min-width: 9px;
+            margin-left: 0.35em;
+            font-size: 0.875em;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .chatlog__bot-tag {
+            position: relative;
+            top: -.1em;
+            margin-left: 0.3em;
+            padding: 0.05em 0.3em;
+            border-radius: 3px;
+            line-height: 1.3;
+            background-color: #5865F2;
+            color: #ffffff;
+            font-size: 0.625em;
+            font-weight: 500;
+        }
+
+        .postamble {
+            margin: 1.4em 0.3em 0.6em 0.3em;
+            padding: 1em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .postamble__entry {
+            color: #ffffff;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+
+        function showSpoiler(event, element) {
+            if (element && element.classList.contains('spoiler-text--hidden')) {
+                event.preventDefault();
+                element.classList.remove('spoiler-text--hidden');
+            }
+            if (element && element.classList.contains('chatlog__attachment--hidden')) {
+                event.preventDefault();
+                element.classList.remove('chatlog__attachment--hidden');
+            }
+        }
+    </script>
+
+    <svg style="display: none">
+        <symbol id="icon-attachment" viewBox="0 0 720 960">
+            <path fill="#f4f5fb" d="M50,935a25,25,0,0,1-25-25V50A25,25,0,0,1,50,25H519.6L695,201.32V910a25,25,0,0,1-25,25Z" />
+            <path fill="#7789c4" d="M509.21,50,670,211.63V910H50V50H509.21M530,0H50A50,50,0,0,0,0,50V910a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50h0V191Z" />
+            <path fill="#f4f5fb" d="M530,215a25,25,0,0,1-25-25V50a25,25,0,0,1,16.23-23.41L693.41,198.77A25,25,0,0,1,670,215Z" />
+            <path fill="#7789c4" d="M530,70.71,649.29,190H530V70.71M530,0a50,50,0,0,0-50,50V190a50,50,0,0,0,50,50H670a50,50,0,0,0,50-50Z" />
+        </symbol>
+    </svg>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/0-EB806.png" alt="Guild icon" loading="lazy">
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Direct Messages</div>
+        <div class="preamble__entry">Private / Kaldeqca</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/0dc56729522a985b417a7f688ca418f9-A865B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kaldeqca#8087" data-user-id="298617805006307328" style="">Kaldeqca</span>
+
+
+        <span class="chatlog__timestamp">19-Aug-21 11:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="877944905840877589" id="message-877944905840877589" title="Message sent: 19-Aug-21 11:59 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">hello there, are you one of the moderators of the Chinese Koikatsu server?</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="877945104424370277" id="message-877945104424370277" title="Message sent: 20-Aug-21 12:00 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">你是中国Koikatsu服务器的管理员吗？</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/e4256c675d846fa8ea5e645db590aa0b-8EB0B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560" style="">jim60105&#129436;Taiwan</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-21 12:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="877945281142984715" id="message-877945281142984715" title="Message sent: 20-Aug-21 12:01 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">是</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/0dc56729522a985b417a7f688ca418f9-A865B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kaldeqca#8087" data-user-id="298617805006307328" style="">Kaldeqca</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-21 12:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="877945442539831306" id="message-877945442539831306" title="Message sent: 20-Aug-21 12:01 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">okay doky
+so I&#39;ve contacted another moderator of the server just now
+but he told me to find someone else
+which I don&#39;t really understand why. but it&#39;s probably a cultural thing</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="877945610056106014" id="message-877945610056106014" title="Message sent: 20-Aug-21 12:02 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">so, I have been talking to both STN and Bepis and we have concluded that this is indeed an unacceptable thing
+So here&#39;s  the solution for the time being
+If your card is being affected
+if you&#39;d like to have your cards removed then 
+please send me the link or links of the DB site
+if you&#39;d like to be credited, then please also send me your pixiv link if available</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="877945714364272701" id="message-877945714364272701" title="Message sent: 20-Aug-21 12:02 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">好的，
+所以我刚刚联系了服务器的另一位mod
+但他让我去找别的人
+我真的不明白为什么。但这可能是一个文化问题。
+所以，我已经和STN和Bepis谈过了，我们认为这确实是一件不可接受的事情。
+所以目前的解决方案是这样的
+如果你的卡受到影响
+如果你想移除你的卡，那么 
+请把DB网站的链接发给我
+如果你想得到credits，那么也请把你的pixiv链接发给我（如果有）。</span>
+
+                                <span class="chatlog__edited-timestamp" title="20-Aug-21 12:02 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/e4256c675d846fa8ea5e645db590aa0b-8EB0B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560" style="">jim60105&#129436;Taiwan</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-21 12:08 AM</span>
+
+            <div class="chatlog__message " data-message-id="877947083779354704" id="message-877947083779354704" title="Message sent: 20-Aug-21 12:08 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">先申明，我自己不是角色卡或Studio創作者，我只做插件
+
+我認為主要的問題是在於BepisDB無法核實上傳檔案者是不是作者
+在系統無法主動驗證的情況下，只能由原作者提出申訴，由原作者證明這個東西是自己作的，而且過往聽到的消息大都是不被受理，這很另創作者沮喪</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="877947727848292382" id="message-877947727848292382" title="Message sent: 20-Aug-21 12:10 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">另外KKAPI(?)的角色作者系統十分容易被竄改
+立意良善，但只能防君子不防小人</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/0dc56729522a985b417a7f688ca418f9-A865B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kaldeqca#8087" data-user-id="298617805006307328" style="">Kaldeqca</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-21 12:11 AM</span>
+
+            <div class="chatlog__message " data-message-id="877947821280608268" id="message-877947821280608268" title="Message sent: 20-Aug-21 12:11 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Yes, I understand, that’s why, we would like for creator to send us messages if they’re having issues with the DB site.
+We would like to solve this issue with everyone here</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="877947993150603274" id="message-877947993150603274" title="Message sent: 20-Aug-21 12:11 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">是的，我明白，这就是为什么，我们希望创作者在DB网站上遇到问题时能给我们留言。
+我们希望和大家一起解决这个问题。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/e4256c675d846fa8ea5e645db590aa0b-8EB0B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560" style="">jim60105&#129436;Taiwan</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-21 12:15 AM</span>
+
+            <div class="chatlog__message " data-message-id="877949018762776636" id="message-877949018762776636" title="Message sent: 20-Aug-21 12:15 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">我和其它管理員討論一下這件事</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/0dc56729522a985b417a7f688ca418f9-A865B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kaldeqca#8087" data-user-id="298617805006307328" style="">Kaldeqca</span>
+
+
+        <span class="chatlog__timestamp">20-Aug-21 12:16 AM</span>
+
+            <div class="chatlog__message " data-message-id="877949060596789308" id="message-877949060596789308" title="Message sent: 20-Aug-21 12:16 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Appreciate it</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/e4256c675d846fa8ea5e645db590aa0b-8EB0B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560" style="">jim60105&#129436;Taiwan</span>
+
+
+        <span class="chatlog__timestamp">21-Aug-21 08:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="878617060438065212" id="message-878617060438065212" title="Message sent: 21-Aug-21 08:30 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">以下是コイカツ！(中文)管理員決議，我以管理群名義回覆
+
+我們認為回報機制治標不治本，在無法解決根本問題的情況下，管理員無意幫你宣傳
+但只要沒有違反伺服器規則，我們不會阻止你在伺服器中自行接洽
+
+如果你希望從根本解決問題，請把BepisDB的系統規則反過來做
+移除所有來自Crawler和CCCP的內容；移除所有未獲得授權轉載的內容
+未授權的東西全部移除，只加入有取得授權的內容，而不是把回報責任推給受害者
+難道要作者每天巡邏找自己作品? 這無非是在迫害受害者
+
+有能的創作者沒有從社群中得到應有的受益，這是造成現今Koikatu創作社群萎縮的元兇
+創作者不分享，社群走向封閉
+公開的只剩無價值的爛卡片，以及「被盜走」的卡片，而這更加的打擊創作者的動力
+類似BepisDB這一類的整合網站奪走了創作者的點閱率和關注度，造成死的循環
+
+此網站的定位本身和我們的期望相衝突
+我們看重的是創作者這一方，而不是消費者這一方
+綜上所述，我們駁回「為BepisDB回報窗口做公告宣傳」的申請</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/0dc56729522a985b417a7f688ca418f9-A865B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kaldeqca#8087" data-user-id="298617805006307328" style="">Kaldeqca</span>
+
+
+        <span class="chatlog__timestamp">25-Aug-21 10:35 AM</span>
+
+            <div class="chatlog__message " data-message-id="879916853252722708" id="message-879916853252722708" title="Message sent: 25-Aug-21 10:35 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">This is a reply directly from Bepis
+这是Bepis的直接答复
+
+我可以接受pixiv账户链接，并使用它们来扫描所有的图像，以确定哪些卡片要迁移到账户中，但这是这是我愿意做的最大限度。
+
+你们的所谓的 &quot;解决方案 &quot;将要求从bepisdb删除95%的卡片，这是很疯狂的。
+日本、韩国、英国和俄罗斯社区认为，我对网站的运作是公平的，我给了他们足够的选择来解决这些问题。
+
+但不知何故，你们和Zodgame的管理员, 认为这不公平，同时，你们的国家甚至不承认版权法
+
+我已经快想要禁止中国IP访问bepisdb了，因为有很多人使用中国的IP地址下载整个网站，给服务器带来很大压力。如果你们认为我的条款不公平，那么我必须做我必须做的事
+
+另外，我很难相信Koikatsu社区正在 &quot;萎缩&quot;。我的网站每天有40万次来自中国用户的访问，而且这个数字还在增加。
+
+在我尝试解决这种情况时，我不会被欺负得屈服。这是我的条件，接受或不接受。如果你不接受，我相信那20,000多名中国用户也会不高兴</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="879917102205665330" id="message-879917102205665330" title="Message sent: 25-Aug-21 10:36 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">_<em> </em>
+Personally I believe, we&#39;re on the side acting on good faith here.
+As you know the site is protected under safe harbor and I personally, believe it&#39;s copyright holders responsibility to issue take downs and we will comply with these take downs</span>
+
+                                <span class="chatlog__edited-timestamp" title="25-Aug-21 10:36 AM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="879917444716695562" id="message-879917444716695562" title="Message sent: 25-Aug-21 10:37 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">Like danbooru, the content are generated via users and tools, the copyright holders need to issue take downs, the responsibility to detect these copyright materials belong to the copyright holders instead of the owners</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="879917613382250541" id="message-879917613382250541" title="Message sent: 25-Aug-21 10:38 AM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">我个人认为，我们是站在善意的一方。
+正如你所知道的，该网站受到安全港的保护，我个人认为，版权持有人有责任发布下架声明，我们将遵守这些下架声明。
+就像danbooru一样，这些内容是通过用户和工具产生的，版权持有人需要发布下架，检测这些版权材料的责任属于版权持有人而不是我们。</span>
+
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+
+<div class="chatlog__message-group">
+
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html_Files/e4256c675d846fa8ea5e645db590aa0b-8EB0B.png" alt="Avatar" loading="lazy">
+    </div>
+
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="jim60105&#129436;Taiwan#0753" data-user-id="477041929713090560" style="">jim60105&#129436;Taiwan</span>
+
+
+        <span class="chatlog__timestamp">25-Aug-21 12:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="879945235923349505" id="message-879945235923349505" title="Message sent: 25-Aug-21 12:28 PM">
+                    <div class="chatlog__content">
+                        <div class="markdown">
+                            <span class="preserve-whitespace">也就是說，BepisDB上95%的卡片來自工具的盜取和未經核可的上傳？
+這確實很瘋狂，而這也是我們拒絕你的原因。
+大多數的創作者在發佈作品時會附上轉載條件，而最常見的是「禁止轉載、禁止二次發佈」
+Crawler看不懂這些條件，所以Crawler不該被使用
+沒有人期望自己的作品被直接搶走，你們正在加害創作者
+
+正如我前面提到的，「Koikatu創作社群」正在萎縮，而不是「Koikatu社群」正在萎縮
+我們看重的是創作者這一方，而不是消費者這一方
+「BepisDB站點訪問人數上升」並不和創作者活躍正向相關
+不如說，你的訪問量越高，代表有越多的創作者沒有得到他應有的點閱量
+受害者正在增加，而你拒絕處理根本問題
+
+我贊成你阻擋Crawler，或是直接阻擋中國IP
+以網站維護的角度來說，阻擋不正常的訪問是合理的管理措施
+這一部份沒有問題
+
+我想另外補充一些題外話
+Discord伺服器「コイカツ！(中文)」的成員主要是由台灣人組成，次多的是香港人，只有極少數是中華人民共和國人民
+這是因為GFW阻擋了中國人民訪問Discord，他們需要使用VPN，而這確實能過濾掉許多猴子
+你所說的版權法云云，我想是找錯了對象</span>
+
+                                <span class="chatlog__edited-timestamp" title="25-Aug-21 12:28 PM">(edited)</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 18 message(s)</div>
+</div>
+
+</body>
+
+</html>

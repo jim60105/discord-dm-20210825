@@ -17,5 +17,9 @@ Kaldeqca向コイカツ！(中文)管理層提出申請「為BepisDB回報窗口
 
 ## 對話內容
 
-- [來自Kaldeqca](https://jim60105.github.io/discord-dm-20210825/Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html)
-- [來自Bepis](https://jim60105.github.io/discord-dm-20210825/Direct%20Messages%20-%20Private%20-%20Bepis%20[879951868342718525].html)
+- [來自Kaldeqca](Direct%20Messages%20-%20Private%20-%20Kaldeqca%20%5B877944828682436618%5D.html)
+- [來自Bepis](Direct%20Messages%20-%20Private%20-%20Bepis%20[879951868342718525].html)
+
+## Git推送錄影
+
+[Git推送錄影](2021-08-25_14-39-43.mp4)
